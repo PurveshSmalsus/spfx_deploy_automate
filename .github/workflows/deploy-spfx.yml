@@ -30,6 +30,11 @@ jobs:
       - name: Run production package
         run: gulp package-solution --ship
 
+      - name: Setup Node.js v20 for Deployment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Decode certificate from secret
         run: |
           echo "${{ secrets.SHAREPOINT_CERTIFICATE_BASE64 }}" | base64 --decode > spfx-certificate.pfx
