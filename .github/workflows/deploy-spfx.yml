@@ -44,7 +44,7 @@ jobs:
 
       - name: Log in to Microsoft 365
         run: |
-          m365 login --tenant "${{ secrets.SHAREPOINT_TENANT_ID }}" --clientId "${{ secrets.SHAREPOINT_CLIENT_ID }}" --certificateFile spfx-certificate.pfx --password "${{ secrets.SHAREPOINT_CERTIFICATE_PASSWORD }}"
+          m365 login --tenant "${{ secrets.SHAREPOINT_TENANT_ID }}" --appId "${{ secrets.SHAREPOINT_CLIENT_ID }}" --authType certificate --certificateFile spfx-certificate.pfx --password "${{ secrets.SHAREPOINT_CERTIFICATE_PASSWORD }}"
 
       - name: Deploy solution to SharePoint App Catalog
         run: |
