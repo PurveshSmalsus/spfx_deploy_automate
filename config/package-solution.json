@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ci-cd-test-client-side-solution",
+    "id": "119e81bb-c941-4c60-bb46-bf8faac2b3f7",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ci-cd-test description"
+      },
+      "longDescription": {
+        "default": "ci-cd-test description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "ci-cd-test Feature",
+        "description": "The feature that activates elements of the ci-cd-test solution.",
+        "id": "cb339f57-d7a3-4ce6-a05e-0ab2c10f24ce",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/ci-cd-test.sppkg"
+  }
+}

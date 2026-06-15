@@ -1,0 +1,50 @@
+name: Build and Deploy SPFx
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Gulp CLI
+        run: npm install -g gulp-cli
+
+      - name: Run production bundle
+        run: gulp bundle --ship
+
+      - name: Run production package
+        run: gulp package-solution --ship
+
+      - name: Decode certificate from secret
+        run: |
+          echo "${{ secrets.SHAREPOINT_CERTIFICATE_BASE64 }}" | base64 --decode > spfx-certificate.pfx
+
+      - name: Install CLI for Microsoft 365
+        run: npm install -g @pnp/cli-microsoft365
+
+      - name: Log in to Microsoft 365
+        run: |
+          m365 login --tenant "${{ secrets.SHAREPOINT_TENANT_ID }}" --clientId "${{ secrets.SHAREPOINT_CLIENT_ID }}" --certificateFile spfx-certificate.pfx --password "${{ secrets.SHAREPOINT_CERTIFICATE_PASSWORD }}"
+
+      - name: Deploy solution to SharePoint App Catalog
+        run: |
+          # 1. Add/Upload the package to the App Catalog
+          m365 spo app add --filePath "sharepoint/solution/ci-cd-test.sppkg" --appCatalogUrl "${{ secrets.SHAREPOINT_APP_CATALOG_URL }}" --scope tenant --overwrite
+          
+          # 2. Deploy/Trust the package in the App Catalog
+          m365 spo app deploy --id "119e81bb-c941-4c60-bb46-bf8faac2b3f7" --appCatalogUrl "${{ secrets.SHAREPOINT_APP_CATALOG_URL }}" --scope tenant
